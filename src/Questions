@@ -1,0 +1,9 @@
+Questions for Professor
+
+Why is there two different sections?
+
+I.E. 
+
+1. GET http://localhost:8080/thalia/shows/307/sections
+
+2. GET http://localhost:8080/thalia/sections/123  //What's the reason for this GET protocol? Wouldn't we only need to havge the first GET?
