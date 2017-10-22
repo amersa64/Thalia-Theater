@@ -6,6 +6,7 @@ public class TheaterIDGenerator {
 
 	protected TheaterIDGenerator() {
 		idCounter=0;
+		
 		// Exists only to defeat instantiation.
 	}
 	public int getNext(){

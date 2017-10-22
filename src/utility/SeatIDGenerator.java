@@ -11,6 +11,9 @@ public class SeatIDGenerator {
 	public int getNext(){
 		return idCounter++;
 	}
+	public void reset(){
+		idCounter =0;
+	}
 
 	public static SeatIDGenerator getInstance() {
 		if (instance == null) {
