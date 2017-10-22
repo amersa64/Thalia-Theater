@@ -1,6 +1,6 @@
 package edu.iit.cs445.thalia;
 
-import sun.swing.SwingUtilities2.Section;
+import seating.*;
 
 public class Ticket {
 	String id;
@@ -21,8 +21,8 @@ public class Ticket {
 		double price = 0;
 		Section[] secs = this.show.getTheatre().getSections();
 		for (int i =0; i<secs.length;i++){
-			for(int r=0; j<secs[i].getRows().length;j++){
-				for(int s=0; s<secs[i].getRows()[r].length;s++){
+			for(int r=0; r<secs[i].getRows().length;r++){
+				for(int s=0; s<secs[i].getRows()[r].getSeats().length;s++){
 					if(secs[i].getRows()[r].getSeats()[s].equals(this.seat)){
 						price = this.show.getPrice()+secs[i].getSectionFee();
 						return price;
@@ -30,6 +30,7 @@ public class Ticket {
 				}
 			}
 		}
+		return price;
 	}
 	public String getId() {
 		return id;

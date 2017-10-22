@@ -1,5 +1,7 @@
 package edu.iit.cs445.thalia;
 
+import mics.PaymentMethod;
+
 public class Customer {
 	PaymentMethod paymentMethod;
 	String name;

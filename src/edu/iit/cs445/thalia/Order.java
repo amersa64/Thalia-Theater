@@ -3,6 +3,8 @@ package edu.iit.cs445.thalia;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import utility.OrderIDGenerator;
+
 public class Order {
 	String id;
 	LocalDate date;
@@ -25,6 +27,14 @@ public class Order {
 		for(Ticket t: tickets){
 			this.bill+=t.getPrice();
 		}
+	}
+	public void scanTicket(Ticket t){
+		for(Ticket mytic: tickets){
+			if(mytic.equals(t)){
+				mytic.setScanned(true);
+			}
+		}
+		
 	}
 	@Override
 	public int hashCode() {
