@@ -9,8 +9,14 @@ public class Ticket {
 	boolean scanned;
 	boolean donated;
 	
+	public Ticket(Seat seat, Show show) {
+		this.id= show.getId()+seat.getId();
+		this.seat = seat;
+		this.show = show;
+		this.scanned= false;
+		this.donated = false;
+	}
 	public Ticket(String id, Seat seat, Show show, boolean scanned, boolean donated) {
-		super();
 		this.id = id;
 		this.seat = seat;
 		this.show = show;

@@ -11,6 +11,36 @@ public class Order {
 	Customer customer;
 	Ticket[] tickets;
 	double bill;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public LocalDate getDate() {
+		return date;
+	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	public Ticket[] getTickets() {
+		return tickets;
+	}
+	public void setTickets(Ticket[] tickets) {
+		this.tickets = tickets;
+	}
+	public double getBill() {
+		return bill;
+	}
+	public void setBill(double bill) {
+		this.bill = bill;
+	}
 	public Order(String id, LocalDate date, Customer customer, Ticket[] tickets, double bill) {
 		super();
 		this.id = id;
