@@ -15,6 +15,17 @@ public class Show {
 	double price;
 	int length;
 	String description;
+	
+	public Show(){
+		this.id = String.valueOf(ShowIDGenerator.getInstance().getNext());
+		this.time = LocalTime.of(12,12,12);
+		this.date = LocalDate.of(2017, 12, 12);
+		this.theatre = new Theatre();
+		this.price = 10;
+		this.length = 120;
+		this.description= "Description";
+	}
+	
 	public Show(LocalTime time, LocalDate date, Theatre theatre, double price, int length, String description){
 		this.id = String.valueOf(ShowIDGenerator.getInstance().getNext());
 		this.time = time;
@@ -24,6 +35,7 @@ public class Show {
 		this.length = length;
 		this.description= description;
 	}
+	
 	public String getId() {
 		return id;
 	}
@@ -66,6 +78,15 @@ public class Show {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Show [id=" + id + ", time=" + time + ", date=" + date + ", theatre=" + theatre + ", price=" + price
+				+ ", length=" + length + ", description=" + description + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
