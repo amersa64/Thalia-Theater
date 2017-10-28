@@ -11,9 +11,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import edu.iit.cs445.thalia.Show;
-import edu.iit.cs445.thalia.testVals;
 import seating.*;
+import testing.testVals;
+import thalia.Show;
 
 
 //Sets the path to base URL + /test
@@ -48,7 +48,7 @@ public class ShowsAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Show[] ViewAllShows(){
-		Theatre theatres= new Theatre();
+		SeatingConfiguration theatres= new SeatingConfiguration();
 		LocalTime time = LocalTime.of(11, 40, 50);
 		LocalDate date = LocalDate.of(2017, 10, 28);
 		int length = 120;
