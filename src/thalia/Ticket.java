@@ -1,5 +1,6 @@
 package thalia;
 
+
 import seating.*;
 
 public class Ticket {
@@ -10,7 +11,7 @@ public class Ticket {
 	boolean donated;
 	
 	public Ticket(Seat seat, Show show) {
-		this.id= show.getId()+seat.getId();
+		this.id= show.getWid()+seat.getCid();
 		this.seat = seat;
 		this.show = show;
 		this.scanned= false;
@@ -25,12 +26,11 @@ public class Ticket {
 	}
 	public double getPrice(){
 		double price = 0;
-		Section[] secs = this.show.getSeatingConfiguration().getSections();
-		for (int i =0; i<secs.length;i++){
-			for(int r=0; r<secs[i].getRows().length;r++){
-				for(int s=0; s<secs[i].getRows()[r].getSeats().length;s++){
-					if(secs[i].getRows()[r].getSeats()[s].equals(this.seat)){
-						price = this.show.getPrice()+secs[i].getSectionFee();
+		for(Section section: this.show.getSeating_info()){
+			for(int r=0; r<section.getRows().length;r++){
+				for(int s=0; s<section.getRows()[r].getSeats().length;s++){
+					if(section.getRows()[r].getSeats()[s].equals(this.seat)){
+						price = section.getPrice();
 						return price;
 					}
 				}

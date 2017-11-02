@@ -16,19 +16,19 @@ public class Theatre {
 	ArrayList<Order> orders;
 	ArrayList<Ticket> tickets;
 	ArrayList<Donatee> donatees;
-	ArrayList<Customer> customers;
+	ArrayList<Patron> patrons;
 
 
 	public Show searchShowId(String wid){
 		for(Show s: shows){
-			if(s.getId().equals(wid))
+			if(s.getWid().equals(wid))
 				return s;
 		}
 		return null;
 	}
 	public Section[] viewShowSections(String wid){
 		Show show = searchShowId(wid);
-		return show.getSeatingConfiguration().getSections();
+		return show.getSeating_info();
 	}
 	public void deleteShowId(String wid){
 		Show show = searchShowId(wid);
@@ -65,7 +65,7 @@ public class Theatre {
 		this.orders = new ArrayList<Order>();
 		this.tickets = new ArrayList<Ticket>();
 		this.donatees = new ArrayList<Donatee>();
-		this.customers = new ArrayList<Customer>();
+		this.patrons = new ArrayList<Patron>();
 	}
 	public void add(Show show){
 		this.shows.add(show);
@@ -79,8 +79,8 @@ public class Theatre {
 	public void add(Donatee donatee){
 		this.donatees.add(donatee);
 	}
-	public void add(Customer customer){
-		this.customers.add(customer);
+	public void add(Patron patron){
+		this.patrons.add(patron);
 	}
 	
 	public void delete(Show show){
@@ -95,8 +95,8 @@ public class Theatre {
 	public void delete(Donatee donatee){
 		this.donatees.remove(donatee);
 	}
-	public void delete(Customer customer){
-		this.customers.remove(customer);
+	public void delete(Patron patron){
+		this.patrons.remove(patron);
 	}
 	
 	public ArrayList<Show> getShows() {
@@ -123,17 +123,17 @@ public class Theatre {
 	public void setDonatees(ArrayList<Donatee> donatees) {
 		this.donatees = donatees;
 	}
-	public ArrayList<Customer> getCustomers() {
-		return customers;
+	public ArrayList<Patron> getCustomers() {
+		return patrons;
 	}
-	public void setCustomers(ArrayList<Customer> customers) {
-		this.customers = customers;
+	public void setCustomers(ArrayList<Patron> patrons) {
+		this.patrons = patrons;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((customers == null) ? 0 : customers.hashCode());
+		result = prime * result + ((patrons == null) ? 0 : patrons.hashCode());
 		result = prime * result + ((donatees == null) ? 0 : donatees.hashCode());
 		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
 		result = prime * result + ((shows == null) ? 0 : shows.hashCode());
@@ -149,10 +149,10 @@ public class Theatre {
 		if (getClass() != obj.getClass())
 			return false;
 		Theatre other = (Theatre) obj;
-		if (customers == null) {
-			if (other.customers != null)
+		if (patrons == null) {
+			if (other.patrons != null)
 				return false;
-		} else if (!customers.equals(other.customers))
+		} else if (!patrons.equals(other.patrons))
 			return false;
 		if (donatees == null) {
 			if (other.donatees != null)

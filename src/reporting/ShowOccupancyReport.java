@@ -21,7 +21,7 @@ public class ShowOccupancyReport extends ShowReport {
 		this.occupancy = occupancy;
 	}
 	private void updateOccupancyMetrics(){
-		for(Section section: this.show.getSeatingConfiguration().getSections()){
+		for(Section section: this.show.getSeating_info()){
 			SectionReport sr = new SectionReport(section);
 			this.available_seats+=sr.getSeats_available();
 			this.seats_sold+=sr.getSeats_sold();

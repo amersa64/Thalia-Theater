@@ -2,6 +2,8 @@ package seating;
 
 import java.util.Arrays;
 
+import seating.Seat.SeatStatus;
+
 public class Row {
 	Seat[] Seats;
 	int rowId;
@@ -30,7 +32,7 @@ public class Row {
 		int counter = 0;
 		
 		for (int s = start; s < numSeats; s++){
-			if (this.Seats[s].isTaken){
+			if (this.Seats[s].status.equals(SeatStatus.available)){
 				counter = 0;
 			}
 			else {

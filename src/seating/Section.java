@@ -3,35 +3,30 @@ package seating;
 import java.util.Arrays;
 
 import utility.SeatIDGenerator;
+import utility.SectionIDGenerator;
 
 public class Section {
-	String Name;
+	String sid;
+	String section_name;
 	Row[] Rows;
-	static double sideSectionPrice = 2;
-	static double regularSectionPrice = 5;
-	double sectionFee;
+	double price;
 	
 	
 	public Section(String Name, int rows, int seats){
-		this.Name = Name;
+		this.section_name = Name;
+		this.sid = String.valueOf(SectionIDGenerator.getInstance().getNext());
 		this.Rows = new Row[rows];
 		SeatIDGenerator.getInstance().reset();
 		for (int i =0;i<rows;i++){
 			this.Rows[i] = new Row(seats, i,this);
 		}
-		if (Name.equals("A") || Name.equals("D")){
-			this.sectionFee = sideSectionPrice;
-		}
-		else {
-			this.sectionFee = regularSectionPrice;
-		}
 	}
 
 	public String getName() {
-		return Name;
+		return section_name;
 	}
 	public void setName(String name) {
-		Name = name;
+		this.section_name = name;
 	}
 	public Row[] getRows() {
 		return Rows;
@@ -40,12 +35,12 @@ public class Section {
 		Rows = rows;
 	}
 	
-	public double getSectionFee() {
-		return sectionFee;
+	public double getPrice() {
+		return price;
 	}
 
-	public void setSectionFee(double sectionFee) {
-		this.sectionFee = sectionFee;
+	public void setPrice(double sectionFee) {
+		this.price = sectionFee;
 	}
 	
 	public Seat[] reqNewSeats(int numSeats, int startRow, int startSeat){
@@ -72,17 +67,17 @@ public class Section {
 
 	@Override
 	public String toString() {
-		return "Section [Name=" + Name + ", Rows=" + Arrays.toString(Rows) + "]";
+		return "Section [Name=" + section_name + ", Rows=" + Arrays.toString(Rows) + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Name == null) ? 0 : Name.hashCode());
+		result = prime * result + ((section_name == null) ? 0 : section_name.hashCode());
 		result = prime * result + Arrays.hashCode(Rows);
 		long temp;
-		temp = Double.doubleToLongBits(sectionFee);
+		temp = Double.doubleToLongBits(price);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -96,14 +91,14 @@ public class Section {
 		if (getClass() != obj.getClass())
 			return false;
 		Section other = (Section) obj;
-		if (Name == null) {
-			if (other.Name != null)
+		if (section_name == null) {
+			if (other.section_name != null)
 				return false;
-		} else if (!Name.equals(other.Name))
+		} else if (!section_name.equals(other.section_name))
 			return false;
 		if (!Arrays.equals(Rows, other.Rows))
 			return false;
-		if (Double.doubleToLongBits(sectionFee) != Double.doubleToLongBits(other.sectionFee))
+		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
 			return false;
 		return true;
 	}

@@ -48,14 +48,13 @@ public class ShowsAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Show[] ViewAllShows(){
-		SeatingConfiguration theatres= new SeatingConfiguration();
+		Section[] theatres= new Section[6];
 		LocalTime time = LocalTime.of(11, 40, 50);
 		LocalDate date = LocalDate.of(2017, 10, 28);
-		int length = 120;
-		String description = "Test Description";
-		Show sh = new Show(time, date, theatres, 0, length, description);
+		String name = "Test Description";
+		String web = "URL";
+		Show sh = new Show(time, date, theatres, name, web);
 		Show[] shows = {sh};
-		
 		return shows;
 	}
 	 

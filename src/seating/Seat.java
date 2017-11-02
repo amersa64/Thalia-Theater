@@ -3,44 +3,47 @@ package seating;
 import utility.SeatIDGenerator;
 
 public class Seat {
-	String id;
-	boolean isTaken;
+	public enum SeatStatus{
+		available,sold
+	}
+	String cid;
+	SeatStatus status;
 	
 	public Seat(String sectionName){
-		this.id = sectionName + SeatIDGenerator.getInstance().getNext();
-		this.isTaken=false;
+		this.cid = sectionName + SeatIDGenerator.getInstance().getNext();
+		this.status=SeatStatus.available;
 	}
-	public Seat(String id, boolean isTaken) {
-		this.id = id;
-		this.isTaken = isTaken;
+	public Seat(String id, SeatStatus isTaken) {
+		this.cid = id;
+		this.status = isTaken;
 	}
 	
-	public boolean isTaken() {
-		return isTaken;
+	public SeatStatus getStatus() {
+		return status;
 	}
-	public void setTaken(boolean isTaken) {
-		this.isTaken = isTaken;
-	}
-
-	public String getId() {
-		return id;
+	public void setStatus(SeatStatus isTaken) {
+		this.status = isTaken;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public String getCid() {
+		return cid;
+	}
+
+	public void setCid(String id) {
+		this.cid = id;
 	}
 
 	@Override
 	public String toString() {
-		return "Seat [id=" + id + ", isTaken=" + isTaken + "]";
+		return "Seat [cid=" + cid + ", status=" + status + "]";
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (isTaken ? 1231 : 1237);
+		result = prime * result + ((cid == null) ? 0 : cid.hashCode());
+		result = prime * result + (status.hashCode());
 		return result;
 	}
 	@Override
@@ -52,12 +55,12 @@ public class Seat {
 		if (getClass() != obj.getClass())
 			return false;
 		Seat other = (Seat) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (cid == null) {
+			if (other.cid != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!cid.equals(other.cid))
 			return false;
-		if (isTaken != other.isTaken)
+		if (status != other.status)
 			return false;
 		return true;
 	}

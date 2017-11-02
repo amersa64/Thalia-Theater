@@ -18,7 +18,7 @@ public class TheatreRevenueReport extends TheatreReport{
 	}
 	public void updateRevene(){
 		for(Show show: theatre.getShows()){
-			for(Section section:show.getSeatingConfiguration().getSections()){
+			for(Section section:show.getSeating_info()){
 				SectionRevenueReport srr = new SectionRevenueReport(section);
 				overall_revenue+=srr.getSection_revenue();
 			}

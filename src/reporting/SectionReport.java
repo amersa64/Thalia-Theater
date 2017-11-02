@@ -1,6 +1,7 @@
 package reporting;
 
 import seating.*;
+import seating.Seat.SeatStatus;
 
 public class SectionReport {
 	Section section;
@@ -12,7 +13,7 @@ public class SectionReport {
 		int cap = 0;
 		for(Row row: section.getRows()){
 			for(Seat seat: row.getSeats()){
-				if(seat.isTaken())
+				if(seat.getStatus().equals(SeatStatus.sold))
 					this.seats_sold++;
 				cap++;
 			}

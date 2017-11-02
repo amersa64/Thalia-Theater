@@ -1,104 +1,80 @@
 package thalia;
 
-//import java.sql.Date;
-//import java.sql.Time;
 import java.time.*;
 
-import seating.SeatingConfiguration;
+import seating.*;
+
 import utility.ShowIDGenerator;
 
 public class Show {
-	String id;
-	LocalTime time;
-	LocalDate date;
-	SeatingConfiguration theatre;
-	double price;
-	int length;
-	String description;
-	//not updated setters and getter etc
-	
+	String wid;
+	Section[]  seating_info;
+	ShowData show_info = new ShowData();
+
 	public Show(){
-		this.id = String.valueOf(ShowIDGenerator.getInstance().getNext());
-		this.time = LocalTime.of(12,12,12);
-		this.date = LocalDate.of(2017, 12, 12);
-		this.theatre = new SeatingConfiguration();
-		this.price = 10;
-		this.length = 120;
-		this.description= "Description";
+		this.wid = String.valueOf(ShowIDGenerator.getInstance().getNext());
+		this.show_info.setTime(LocalTime.of(12,12,12));
+		this.show_info.setDate(LocalDate.of(2017, 12, 12));
+		this.seating_info = new Section[6];
+		this.show_info.setName("Name");
+		this.show_info.setWeb("URL");
 	}
-	public Show(LocalTime time, LocalDate date, SeatingConfiguration theatre, double price, int length, String description){
-		this.id = String.valueOf(ShowIDGenerator.getInstance().getNext());
-		this.time = time;
-		this.date = date;
-		this.theatre = theatre;
-		this.price = price;
-		this.length = length;
-		this.description= description;
+	public Show(LocalTime time, LocalDate date, Section[] theatre,String name, String web){
+		this.wid = String.valueOf(ShowIDGenerator.getInstance().getNext());
+		this.show_info.setTime(time);
+		this.show_info.setDate(date);
+		this.seating_info = theatre;
+		this.show_info.setName(name);
+		this.show_info.setWeb(web);
 	}
-	public String getId() {
-		return id;
+	public String getWid() {
+		return wid;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setWid(String id) {
+		this.wid = id;
 	}
 	public LocalTime getTime() {
-		return time;
+		return show_info.getTime();
 	}
 	public void setTime(LocalTime time) {
-		this.time = time;
+		this.show_info.setTime(time);
 	}
 	public LocalDate getDate() {
-		return date;
+		return show_info.getDate();
 	}
 	public void setDate(LocalDate date) {
-		this.date = date;
+		this.show_info.setDate(date);
 	}
-	public SeatingConfiguration getSeatingConfiguration() {
-		return theatre;
+	public Section[] getSeating_info() {
+		return seating_info;
 	}
-	public void setSeatingConfiguration(SeatingConfiguration theatre) {
-		this.theatre = theatre;
+	public void setSeating_info(Section[] theatre) {
+		this.seating_info = theatre;
 	}
-	public double getPrice() {
-		return price;
+	public String getName() {
+		return show_info.getName();
 	}
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	public int getLength() {
-		return length;
-	}
-	public void setLength(int length) {
-		this.length = length;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.show_info.setName(name);
 	}
 	
 	
 	
 	@Override
 	public String toString() {
-		return "Show [id=" + id + ", time=" + time + ", date=" + date + ", theatre=" + theatre + ", price=" + price
-				+ ", length=" + length + ", description=" + description + "]";
+		return "Show [cid=" + wid + ", time=" + show_info.getTime() + ", date=" + show_info.getDate() + ", theatre="
+				+ seating_info+ ", description=" + show_info.getName() + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + length;
-		long temp;
-		temp = Double.doubleToLongBits(price);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((theatre == null) ? 0 : theatre.hashCode());
-		result = prime * result + ((time == null) ? 0 : time.hashCode());
+		result = prime * result + ((show_info.getDate() == null) ? 0 : show_info.getDate().hashCode());
+		result = prime * result + ((show_info.getName() == null) ? 0 : show_info.getName().hashCode());
+		result = prime * result + ((wid == null) ? 0 : wid.hashCode());
+		result = prime * result + ((seating_info == null) ? 0 : seating_info.hashCode());
+		result = prime * result + ((show_info.getTime() == null) ? 0 : show_info.getTime().hashCode());
 		return result;
 	}
 	@Override
@@ -110,34 +86,30 @@ public class Show {
 		if (getClass() != obj.getClass())
 			return false;
 		Show other = (Show) obj;
-		if (date == null) {
-			if (other.date != null)
+		if (show_info.getDate() == null) {
+			if (other.show_info.getDate() != null)
 				return false;
-		} else if (!date.equals(other.date))
+		} else if (!show_info.getDate().equals(other.show_info.getDate()))
 			return false;
-		if (description == null) {
-			if (other.description != null)
+		if (show_info.getName() == null) {
+			if (other.show_info.getName() != null)
 				return false;
-		} else if (!description.equals(other.description))
+		} else if (!show_info.getName().equals(other.show_info.getName()))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (wid == null) {
+			if (other.wid != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!wid.equals(other.wid))
 			return false;
-		if (length != other.length)
-			return false;
-		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
-			return false;
-		if (theatre == null) {
-			if (other.theatre != null)
+		if (seating_info == null) {
+			if (other.seating_info != null)
 				return false;
-		} else if (!theatre.equals(other.theatre))
+		} else if (!seating_info.equals(other.seating_info))
 			return false;
-		if (time == null) {
-			if (other.time != null)
+		if (show_info.getTime() == null) {
+			if (other.show_info.getTime() != null)
 				return false;
-		} else if (!time.equals(other.time))
+		} else if (!show_info.getTime().equals(other.show_info.getTime()))
 			return false;
 		return true;
 	}

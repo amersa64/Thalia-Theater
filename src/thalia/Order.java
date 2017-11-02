@@ -8,7 +8,7 @@ import utility.OrderIDGenerator;
 public class Order {
 	String id;
 	LocalDate date;
-	Customer customer;
+	Patron patron;
 	Ticket[] tickets;
 	double bill;
 	public String getId() {
@@ -23,11 +23,11 @@ public class Order {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public Customer getCustomer() {
-		return customer;
+	public Patron getCustomer() {
+		return patron;
 	}
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomer(Patron patron) {
+		this.patron = patron;
 	}
 	public Ticket[] getTickets() {
 		return tickets;
@@ -41,18 +41,18 @@ public class Order {
 	public void setBill(double bill) {
 		this.bill = bill;
 	}
-	public Order(String id, LocalDate date, Customer customer, Ticket[] tickets, double bill) {
+	public Order(String id, LocalDate date, Patron patron, Ticket[] tickets, double bill) {
 		super();
 		this.id = id;
 		this.date = date;
-		this.customer = customer;
+		this.patron = patron;
 		this.tickets = tickets;
 		this.bill = bill;
 	}
-	public Order(Customer customer,Ticket[] tickets){
+	public Order(Patron patron,Ticket[] tickets){
 		this.id= String.valueOf(OrderIDGenerator.getInstance().getNext());
 		this.date = LocalDate.now();
-		this.customer = customer;
+		this.patron = patron;
 		this.bill=0;
 		for(Ticket t: tickets){
 			this.bill+=t.getPrice();
@@ -74,7 +74,7 @@ public class Order {
 		long temp;
 		temp = Double.doubleToLongBits(bill);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((patron == null) ? 0 : patron.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + Arrays.hashCode(tickets);
 		return result;
@@ -95,10 +95,10 @@ public class Order {
 			return false;
 		if (Double.doubleToLongBits(bill) != Double.doubleToLongBits(other.bill))
 			return false;
-		if (customer == null) {
-			if (other.customer != null)
+		if (patron == null) {
+			if (other.patron != null)
 				return false;
-		} else if (!customer.equals(other.customer))
+		} else if (!patron.equals(other.patron))
 			return false;
 		if (id == null) {
 			if (other.id != null)
