@@ -5,43 +5,50 @@ import java.util.Arrays;
 import seating.Seat.SeatStatus;
 
 public class Row {
-	Seat[] Seats;
-	int rowId;
-	public Row(int seats, int id, Section section){
-		this.Seats = new Seat[seats];
-		for(int i=0; i<seats;i++){
-			this.Seats[i]= new Seat(section.getName());
+	String row;
+	Seat[] seats;
+	public Row(String[] seats, String id){
+		this.seats = new Seat[seats.length];
+		for(int i=0; i<seats.length;i++){
+			this.seats[i]= new Seat(seats[i]);
 		}
-		this.rowId= id;
+		this.row= id;
+	}
+	
+	public Row(Row r){
+		this.row = r.getRowId();
+		this.seats = r.getSeats();
+	}
+	public Row(Seat[] seats2, String id) {
+		this.row =id;
+		this.seats= seats2;
 	}
 	public Seat[] getSeats() {
-		return Seats;
+		return seats;
 	}
 	public void setSeats(Seat[] seats) {
-		Seats = seats;
+		this.seats = seats;
 	}
-	public int getRowId() {
-		return rowId;
+	public String getRowId() {
+		return row;
 	}
-	public void setRowId(int rowId) {
-		this.rowId = rowId;
+	public void setRowId(String rowId) {
+		this.row = rowId;
 	}
 	
 	public int getAvailSeats(int numSeats, int start){
 		//This counter will check how many seats are contiguously available
 		int counter = 0;
 		
-		for (int s = start; s < numSeats; s++){
-			if (this.Seats[s].status.equals(SeatStatus.available)){
+		for (int s = start; s < this.seats.length; s++){
+			if (this.seats[s].status.equals(SeatStatus.sold)){
 				counter = 0;
 			}
 			else {
 				counter ++;
 			}
 			if (counter == numSeats){
-//				System.out.println("We found a match!");
-				return s;
-				//Prompt the user if they want to use these seats, if not, then we need to check the next available set of seats
+				return start;
 			}
 		}
 		return -1;
@@ -51,14 +58,14 @@ public class Row {
 	
 	@Override
 	public String toString() {
-		return "Row [Seats=" + Arrays.toString(Seats) + ", rowId=" + rowId + "]";
+		return "RowAdapter [seats=" + Arrays.toString(seats) + ", row=" + row + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(Seats);
-		result = prime * result + rowId;
+		result = prime * result + Arrays.hashCode(seats);
+		result = prime * result + row.hashCode();
 		return result;
 	}
 	@Override
@@ -70,9 +77,9 @@ public class Row {
 		if (getClass() != obj.getClass())
 			return false;
 		Row other = (Row) obj;
-		if (!Arrays.equals(Seats, other.Seats))
+		if (!Arrays.equals(seats, other.seats))
 			return false;
-		if (rowId != other.rowId)
+		if (row != other.row)
 			return false;
 		return true;
 	}

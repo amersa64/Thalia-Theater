@@ -1,6 +1,7 @@
 package thalia;
 
 import java.time.*;
+import java.util.Arrays;
 
 import seating.*;
 
@@ -8,14 +9,22 @@ import utility.ShowIDGenerator;
 
 public class Show {
 	String wid;
-	Section[]  seating_info;
+	Section[]  seating_info; //Should Delete?
 	ShowData show_info = new ShowData();
-
+	public void updateSection(Section section){
+		for(Section s: seating_info){
+			if(s.getSid().equals(section.getSid()))
+				s = section;
+		}
+	}
 	public Show(){
 		this.wid = String.valueOf(ShowIDGenerator.getInstance().getNext());
 		this.show_info.setTime(LocalTime.of(12,12,12));
 		this.show_info.setDate(LocalDate.of(2017, 12, 12));
 		this.seating_info = new Section[6];
+		for (int i = 0; i < this.seating_info.length; i++){
+			this.seating_info[i] = new Section();
+		}
 		this.show_info.setName("Name");
 		this.show_info.setWeb("URL");
 	}
@@ -58,14 +67,26 @@ public class Show {
 		this.show_info.setName(name);
 	}
 	
+	public String getWeb() {
+		return show_info.getWeb();
+	}
+	public void setWeb(String name) {
+		this.show_info.setWeb(name);
+	}
 	
-	
-	@Override
-	public String toString() {
-		return "Show [cid=" + wid + ", time=" + show_info.getTime() + ", date=" + show_info.getDate() + ", theatre="
-				+ seating_info+ ", description=" + show_info.getName() + "]";
+	public ShowData getShow_info() {
+		return show_info;
+	}
+	public void setShow_info(ShowData show_info) {
+		this.show_info = show_info;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Show [wid=" + wid + ", seating_info=" + Arrays.toString(seating_info) + ", show_info=" + show_info
+				+ "]";
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -112,6 +133,49 @@ public class Show {
 		} else if (!show_info.getTime().equals(other.show_info.getTime()))
 			return false;
 		return true;
+	}
+	
+	public Show search(String key){
+		if (wid.equals(key)){
+			return this;
+		}
+		if (show_info.getName().equals(key)){
+			return this;
+		}
+		if (show_info.getWeb().equals(key)){
+			return this;
+			
+		}
+		if (show_info.getTime().toString().equals(key)){
+			return this;
+		}
+		if (show_info.getDate().toString().equals(key)){
+			return this;
+		}
+		for (int i = 0; i < seating_info.length; i++){
+			if (seating_info[i].getSection_name().equals(key)){
+				return this;
+			}
+			if (String.valueOf(seating_info[i].getPrice()).equals(key)){
+				return this;
+			}
+			if (seating_info[i].getSid().equals(key)){
+				return this;
+			}
+			for (int j = 0; j < seating_info[i].getRows().length; j++){
+				if (String.valueOf(seating_info[i].getRows()[j].getRowId()).equals(key)){
+					return this;
+				}
+				
+				for (int k = 0; k < seating_info[i].getRows()[j].getSeats().length; k++){
+					if (String.valueOf(seating_info[i].getRows()[j].getSeats()[k].getCid()).equals(key)){
+						return this;
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 	
 

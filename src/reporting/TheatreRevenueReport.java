@@ -2,26 +2,36 @@ package reporting;
 
 import java.time.LocalDate;
 
+import thalia.Show;
 
-import seating.*;
-import thalia.*;
 
 public class TheatreRevenueReport extends TheatreReport{
 	double overall_revenue=0;
 	public TheatreRevenueReport(){
 		super();
-		updateRevene();
+		this.mrid = 802;
+		this.name = "Revenue from ticket sales";
+		updateRevenue();
 	}
 	public TheatreRevenueReport(LocalDate startDate, LocalDate endDate){
 		super(startDate,endDate);
-		updateRevene();
+		this.mrid = 802;
+		this.name = "Revenue from ticket sales";
+		updateRevenue();
 	}
-	public void updateRevene(){
-		for(Show show: theatre.getShows()){
-			for(Section section:show.getSeating_info()){
-				SectionRevenueReport srr = new SectionRevenueReport(section);
-				overall_revenue+=srr.getSection_revenue();
-			}
+	
+	public TheatreRevenueReport(Show show){
+		super(show);
+		this.mrid = 802;
+		this.name = "Revenue from ticket sales";
+		updateRevenue();
+	}
+	
+	private void updateRevenue(){
+		for(int i =0; i< this.shows.length;i++){
+			ShowRevenueReport srr = new ShowRevenueReport(theatre.getShows().get(i));
+			this.showsReports[i] =srr;
+			this.overall_revenue+=srr.getRevenue();
 		}
 	}
 	public double getOverall_revenue() {

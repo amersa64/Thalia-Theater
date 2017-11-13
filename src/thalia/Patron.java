@@ -1,6 +1,5 @@
 package thalia;
 
-import java.time.LocalDate;
 
 public class Patron {
 	String name;
@@ -8,10 +7,10 @@ public class Patron {
 	String phone;
 	String billing_address;
 	String cc_number;
-	LocalDate cc_expiration_date;
+	String cc_expiration_date;
 	
 	public Patron(String name, String email, String phone, String billing_address, String cc_number,
-			LocalDate cc_expiration_date) {
+			String cc_expiration_date) {
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
@@ -37,10 +36,10 @@ public class Patron {
 	public void setCc_number(String cc_number) {
 		this.cc_number = cc_number;
 	}
-	public LocalDate getCc_expiration_date() {
+	public String getCc_expiration_date() {
 		return cc_expiration_date;
 	}
-	public void setCc_expiration_date(LocalDate cc_expiration_date) {
+	public void setCc_expiration_date(String cc_expiration_date) {
 		this.cc_expiration_date = cc_expiration_date;
 	}
 	public String getName() {
@@ -55,12 +54,12 @@ public class Patron {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPhoneNum() {
-		return phone;
-	}
-	public void setPhoneNum(String phoneNum) {
-		this.phone = phoneNum;
-	}
+//	public String getPhoneNum() {
+//		return phone;
+//	}
+//	public void setPhoneNum(String phoneNum) {
+//		this.phone = phoneNum;
+//	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,6 +112,11 @@ public class Patron {
 		} else if (!phone.equals(other.phone))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "Patron [name=" + name + ", email=" + email + ", phone=" + phone + ", billing_address=" + billing_address
+				+ ", cc_number=" + cc_number + ", cc_expiration_date=" + cc_expiration_date + "]";
 	}
 
 

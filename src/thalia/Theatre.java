@@ -1,8 +1,11 @@
 package thalia;
 import java.time.LocalDate;
+import java.util.Queue;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import seating.Section;
+import testing.StaticSectionSetup;
 
 public class Theatre {
 	private static Theatre instance = null;
@@ -15,10 +18,39 @@ public class Theatre {
 	ArrayList<Show> shows;
 	ArrayList<Order> orders;
 	ArrayList<Ticket> tickets;
-	ArrayList<Donatee> donatees;
+	Queue<Donation> donationsRequest;
+	ArrayList<Ticket> donatedTickets;
 	ArrayList<Patron> patrons;
-
-
+	public Ticket findTicketByCid(String cid){
+		for(Ticket ticket: this.tickets){
+			if(ticket.getSeat().getCid().equals(cid))
+				return ticket;
+		}
+		return null;
+	}
+	
+	public void updateDonations(){
+		Queue<Donation> temp = new LinkedList<>();
+		Donation assginedDonation =null;
+		while(!donationsRequest.isEmpty()){
+			Donation donR = donationsRequest.poll();
+			if(donR.tryAssignTicket()){
+				assginedDonation = donR;
+			}else{
+				temp.add(donR);
+			}
+		}
+		if(!assginedDonation.equals(null))
+			temp.add(assginedDonation);
+		this.donationsRequest=temp;
+			
+	}
+	public void updateShow(Show show){
+		for (Show s: shows){
+			if(s.getWid().equals(show.getWid()))
+				s=show;
+		}
+	}
 	public Show searchShowId(String wid){
 		for(Show s: shows){
 			if(s.getWid().equals(wid))
@@ -37,7 +69,7 @@ public class Theatre {
 	public ArrayList<Order> viewOrdersByDate(LocalDate startDate, LocalDate endDate){
 		ArrayList<Order> orders = new ArrayList<Order>();
 		for(Order o: this.orders){
-			if(o.getDate().isAfter(startDate) &&  o.getDate().isBefore(endDate)){
+			if(o.getDate_ordered().toLocalDate().isAfter(startDate) &&  o.getDate_ordered().toLocalDate().isBefore(endDate)){
 				orders.add(o);
 			}
 		}
@@ -51,20 +83,23 @@ public class Theatre {
 			return this.shows; 
 		ArrayList<Show> shows = new ArrayList<Show>();
 		for(Show show: this.shows){
-			if(show.getDate().isAfter(startDate) && show.getDate().isBefore(endDate)){
+			if((show.getDate().isAfter(startDate) || show.getDate().isEqual(startDate))&& show.getDate().isBefore(endDate)){
+				
 				shows.add(show);
 			}
 		}
 		return shows;
 	}
-	
+
 	
 	//setters and getters and default constructors
 	protected Theatre(){
+		StaticSectionSetup._init();
 		this.shows = new ArrayList<Show>();
 		this.orders = new ArrayList<Order>();
 		this.tickets = new ArrayList<Ticket>();
-		this.donatees = new ArrayList<Donatee>();
+		this.donationsRequest = new LinkedList<>();
+		this.donatedTickets = new ArrayList<Ticket>();
 		this.patrons = new ArrayList<Patron>();
 	}
 	public void add(Show show){
@@ -76,8 +111,13 @@ public class Theatre {
 	public void add(Order order){
 		this.orders.add(order);
 	}
-	public void add(Donatee donatee){
-		this.donatees.add(donatee);
+	public void add(Donation donatee){
+		donatee.tryAssignTicket();
+		this.donationsRequest.add(donatee);
+	}
+	public void addD(Ticket Dticket){
+		this.donatedTickets.add(Dticket);
+		updateDonations();
 	}
 	public void add(Patron patron){
 		this.patrons.add(patron);
@@ -92,13 +132,34 @@ public class Theatre {
 	public void delete(Order order){
 		this.orders.remove(order);
 	}
-	public void delete(Donatee donatee){
-		this.donatees.remove(donatee);
+	public void delete(Donation donatee){
+		this.donationsRequest.remove(donatee);
 	}
 	public void delete(Patron patron){
 		this.patrons.remove(patron);
 	}
+	public void deleteD(Ticket dticket){
+		this.donatedTickets.remove(dticket);
+	}
 	
+	public Queue<Donation> getDonationsRequest() {
+		return donationsRequest;
+	}
+	public void setDonationsRequest(Queue<Donation> donationsRequest) {
+		this.donationsRequest = donationsRequest;
+	}
+	public ArrayList<Ticket> getDonatedTickets() {
+		return donatedTickets;
+	}
+	public void setDonatedTickets(ArrayList<Ticket> donatedTickets) {
+		this.donatedTickets = donatedTickets;
+	}
+	public ArrayList<Patron> getPatrons() {
+		return patrons;
+	}
+	public void setPatrons(ArrayList<Patron> patrons) {
+		this.patrons = patrons;
+	}
 	public ArrayList<Show> getShows() {
 		return shows;
 	}
@@ -117,24 +178,12 @@ public class Theatre {
 	public void setTickets(ArrayList<Ticket> tickets) {
 		this.tickets = tickets;
 	}
-	public ArrayList<Donatee> getDonatees() {
-		return donatees;
-	}
-	public void setDonatees(ArrayList<Donatee> donatees) {
-		this.donatees = donatees;
-	}
-	public ArrayList<Patron> getCustomers() {
-		return patrons;
-	}
-	public void setCustomers(ArrayList<Patron> patrons) {
-		this.patrons = patrons;
-	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((patrons == null) ? 0 : patrons.hashCode());
-		result = prime * result + ((donatees == null) ? 0 : donatees.hashCode());
+		result = prime * result + ((donationsRequest == null) ? 0 : donationsRequest.hashCode());
 		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
 		result = prime * result + ((shows == null) ? 0 : shows.hashCode());
 		result = prime * result + ((tickets == null) ? 0 : tickets.hashCode());
@@ -154,10 +203,10 @@ public class Theatre {
 				return false;
 		} else if (!patrons.equals(other.patrons))
 			return false;
-		if (donatees == null) {
-			if (other.donatees != null)
+		if (donationsRequest == null) {
+			if (other.donationsRequest != null)
 				return false;
-		} else if (!donatees.equals(other.donatees))
+		} else if (!donationsRequest.equals(other.donationsRequest))
 			return false;
 		if (orders == null) {
 			if (other.orders != null)

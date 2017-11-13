@@ -7,35 +7,42 @@ public class Seat {
 		available,sold
 	}
 	String cid;
+	String seat;
 	SeatStatus status;
 	
-	public Seat(String sectionName){
-		this.cid = sectionName + SeatIDGenerator.getInstance().getNext();
+	public Seat(){
+		this.cid = String.valueOf(SeatIDGenerator.getInstance().getNext());
+		this.seat = "Seat number here";
 		this.status=SeatStatus.available;
 	}
-	public Seat(String id, SeatStatus isTaken) {
-		this.cid = id;
-		this.status = isTaken;
-	}
 	
-	public SeatStatus getStatus() {
-		return status;
+	public Seat(String seat_number){
+		this.cid =String.valueOf(SeatIDGenerator.getInstance().getNext());
+		this.seat = seat_number;
+		this.status=SeatStatus.available;
 	}
-	public void setStatus(SeatStatus isTaken) {
+	public Seat(String id, String seat_number ,SeatStatus isTaken) {
+		this.cid = id;
+		this.seat= seat_number;
 		this.status = isTaken;
 	}
-
 	public String getCid() {
 		return cid;
 	}
-
-	public void setCid(String id) {
-		this.cid = id;
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
-
-	@Override
-	public String toString() {
-		return "Seat [cid=" + cid + ", status=" + status + "]";
+	public String getSeat() {
+		return seat;
+	}
+	public void setSeat(String seat_number) {
+		this.seat = seat_number;
+	}
+	public SeatStatus getStatus() {
+		return status;
+	}
+	public void setStatus(SeatStatus status) {
+		this.status = status;
 	}
 	
 	@Override
@@ -43,7 +50,8 @@ public class Seat {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cid == null) ? 0 : cid.hashCode());
-		result = prime * result + (status.hashCode());
+		result = prime * result + ((seat == null) ? 0 : seat.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 	@Override
@@ -60,9 +68,20 @@ public class Seat {
 				return false;
 		} else if (!cid.equals(other.cid))
 			return false;
+		if (seat == null) {
+			if (other.seat != null)
+				return false;
+		} else if (!seat.equals(other.seat))
+			return false;
 		if (status != other.status)
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "Seat [cid=" + cid + ", seat=" + seat + ", status=" + status + "]";
+	}
+	
+	
 	
 }

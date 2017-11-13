@@ -8,14 +8,14 @@ public class SeatIDGenerator {
 		idCounter=0;
 		// Exists only to defeat instantiation.
 	}
-	public int getNext(){
+	public synchronized int getNext(){
 		return idCounter++;
 	}
 	public void reset(){
 		idCounter =0;
 	}
 
-	public static SeatIDGenerator getInstance() {
+	public static synchronized SeatIDGenerator getInstance() {
 		if (instance == null) {
 			instance = new SeatIDGenerator();
 		}

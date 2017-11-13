@@ -7,7 +7,6 @@ public class SectionRevenueReport extends SectionReport{
 	public SectionRevenueReport(Section section) {
 		super(section);
 		this.section_revenue=section.getPrice()*this.seats_sold;
-		//we need to fix this to consider the show, we have to come up with an arrangment
 	}
 	public SectionRevenueReport(Section section, int seats_available, int seats_sold, double section_revenue) {
 		super(section,seats_available,seats_sold);

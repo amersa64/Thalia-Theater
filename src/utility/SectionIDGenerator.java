@@ -9,11 +9,11 @@ public class SectionIDGenerator {
 		
 		// Exists only to defeat instantiation.
 	}
-	public int getNext(){
+	public synchronized int getNext(){
 		return idCounter++;
 	}
 
-	public static SectionIDGenerator getInstance() {
+	public static synchronized SectionIDGenerator getInstance() {
 		if (instance == null) {
 			instance = new SectionIDGenerator();
 		}

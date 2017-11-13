@@ -2,31 +2,39 @@ package reporting;
 
 import java.time.LocalDate;
 
+import thalia.Show;
+
 public class TheatreOccupancyReport extends TheatreReport {
-	static String name= "Occupancy report";
-	static int id = 801;
 	double overall_occupancy;
 	
 	public TheatreOccupancyReport(LocalDate startDate, LocalDate endDate){
 		super(startDate,endDate);
-		this.overall_occupancy=(this.sold_seats/this.total_seats)*100;
+		this.mrid = 801;
+		this.name = "Occupancy report";
+		updateOccupancy();
+		this.overall_occupancy=(Double.valueOf(this.sold_seats)/Double.valueOf(this.total_seats))*100;
 	}
 	public TheatreOccupancyReport(){
 		super();
-		this.overall_occupancy=(this.sold_seats/this.total_seats)*100;
+		this.mrid = 801;
+		this.name = "Occupancy report";
+		updateOccupancy();
+		this.overall_occupancy=(Double.valueOf(this.sold_seats)/Double.valueOf(this.total_seats))*100;
 	}
-
-	public static String getName() {
-		return name;
+	
+	public TheatreOccupancyReport(Show show){
+		super(show);
+		this.mrid = 801;
+		this.name = "Occupancy report";
+		updateOccupancy();
+		this.overall_occupancy=(Double.valueOf(this.sold_seats)/Double.valueOf(this.total_seats))*100;
 	}
-	public static void setName(String name) {
-		TheatreOccupancyReport.name = name;
-	}
-	public static int getId() {
-		return id;
-	}
-	public static void setId(int id) {
-		TheatreOccupancyReport.id = id;
+	
+	private void updateOccupancy(){
+		for (int i = 0; i < this.shows.length; i++){
+			ShowOccupancyReport srr = new ShowOccupancyReport(theatre.getShows().get(i));
+			this.showsReports[i] =srr;
+		}
 	}
 	public double getOverall_occupancy() {
 		return overall_occupancy;
@@ -46,7 +54,6 @@ public class TheatreOccupancyReport extends TheatreReport {
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result + ((theatre == null) ? 0 : theatre.hashCode());
 		result = prime * result + total_seats;
-		result = prime * result + total_shows;
 		return result;
 	}
 	@Override
@@ -78,8 +85,6 @@ public class TheatreOccupancyReport extends TheatreReport {
 		} else if (!theatre.equals(other.theatre))
 			return false;
 		if (total_seats != other.total_seats)
-			return false;
-		if (total_shows != other.total_shows)
 			return false;
 		return true;
 	}

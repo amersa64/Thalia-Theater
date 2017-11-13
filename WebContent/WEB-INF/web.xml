@@ -7,13 +7,13 @@
 <servlet>
  <servlet-name>Jersey REST Service</servlet-name>
  <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
- <!-- Register resources and providers under edu.iit.cs445.Thalia package. -->
+ <!-- Register resources and providers under edu.iit.cs445.thalia package. -->
  <init-param>
  <param-name>jersey.config.server.provider.packages</param-name>
  <param-value>edu.iit.cs445.thalia</param-value>
  </init-param>
  <load-on-startup>1</load-on-startup>
- </servlet>
+ </servlet> 
  <servlet-mapping>
  <servlet-name>Jersey REST Service</servlet-name>
  <url-pattern>/rest/*</url-pattern>
