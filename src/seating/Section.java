@@ -3,7 +3,7 @@ package seating;
 import java.util.Arrays;
 
 //import testing.StaticSectionSetup;
-import utility.SectionIDGenerator;
+//import utility.SectionIDGenerator;
 
 public class Section {
 	String sid;
@@ -24,7 +24,28 @@ public class Section {
 	
 	public Section(String Name, double price, Row[] rows){
 		this.section_name = Name;
-		this.sid = String.valueOf(SectionIDGenerator.getInstance().getNext());
+		switch (Name) {
+		case "Front right":
+			this.sid = "123";
+			break;
+		case "Front center":
+			this.sid = "124";
+			break;
+		case "Front left":
+			this.sid = "125";
+			break;
+		case "Main right":
+			this.sid = "126";
+			break;
+		case "Main center":
+			this.sid = "127";
+			break;
+		case "Main left":
+			this.sid = "128";
+			break;
+			
+		}
+//		this.sid = String.valueOf(SectionIDGenerator.getInstance().getNext());
 		this.seating = rows;
 		this.price= price;
 	}

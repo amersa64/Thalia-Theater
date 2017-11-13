@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import seating.Section;
-import testing.StaticSectionSetup;
+//import testing.StaticSectionSetup;
 
 public class Theatre {
 	private static Theatre instance = null;
@@ -31,17 +31,17 @@ public class Theatre {
 	
 	public void updateDonations(){
 		Queue<Donation> temp = new LinkedList<>();
-		Donation assginedDonation =null;
+		Donation assignedDonation =null;
 		while(!donationsRequest.isEmpty()){
 			Donation donR = donationsRequest.poll();
 			if(donR.tryAssignTicket()){
-				assginedDonation = donR;
+				assignedDonation = donR;
 			}else{
 				temp.add(donR);
 			}
 		}
-		if(!assginedDonation.equals(null))
-			temp.add(assginedDonation);
+		if(assignedDonation != null)
+			temp.add(assignedDonation);
 		this.donationsRequest=temp;
 			
 	}
@@ -69,7 +69,7 @@ public class Theatre {
 	public ArrayList<Order> viewOrdersByDate(LocalDate startDate, LocalDate endDate){
 		ArrayList<Order> orders = new ArrayList<Order>();
 		for(Order o: this.orders){
-			if(o.getDate_ordered().toLocalDate().isAfter(startDate) &&  o.getDate_ordered().toLocalDate().isBefore(endDate)){
+			if((o.getDate_ordered().toLocalDate().isAfter(startDate) || o.getDate_ordered().toLocalDate().isEqual(startDate)) &&  (o.getDate_ordered().toLocalDate().isBefore(endDate) || o.getDate_ordered().toLocalDate().isEqual(endDate))){
 				orders.add(o);
 			}
 		}
@@ -83,7 +83,7 @@ public class Theatre {
 			return this.shows; 
 		ArrayList<Show> shows = new ArrayList<Show>();
 		for(Show show: this.shows){
-			if((show.getDate().isAfter(startDate) || show.getDate().isEqual(startDate))&& show.getDate().isBefore(endDate)){
+			if((show.getDate().isAfter(startDate) || show.getDate().isEqual(startDate))&& (show.getDate().isBefore(endDate) || show.getDate().isEqual(endDate))){
 				
 				shows.add(show);
 			}
@@ -94,7 +94,6 @@ public class Theatre {
 	
 	//setters and getters and default constructors
 	protected Theatre(){
-		StaticSectionSetup._init();
 		this.shows = new ArrayList<Show>();
 		this.orders = new ArrayList<Order>();
 		this.tickets = new ArrayList<Ticket>();

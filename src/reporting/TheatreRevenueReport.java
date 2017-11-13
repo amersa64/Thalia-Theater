@@ -24,7 +24,13 @@ public class TheatreRevenueReport extends TheatreReport{
 		super(show);
 		this.mrid = 802;
 		this.name = "Revenue from ticket sales";
-		updateRevenue();
+		for (Show s : this.shows) {
+			if (s.getWid().equals(show.getWid())) {
+				ShowRevenueReport srr = new ShowRevenueReport(s);
+				this.showsReports[0] = srr;
+				this.overall_revenue = srr.getRevenue();
+			}
+		}
 	}
 	
 	private void updateRevenue(){
